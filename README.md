@@ -1,16 +1,160 @@
-# React + Vite
+# Currency Converter
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A premium, real-time currency converter built with **React**, **GSAP** animations, and **PureCSS**. Supports **131 world currencies** across 6 regions with live exchange rates and a sleek glassmorphism UI.
 
-Currently, two official plugins are available:
+![screenshot](https://img.shields.io/badge/status-active-brightgreen) ![React](https://img.shields.io/badge/React-19-61DAFB) ![GSAP](https://img.shields.io/badge/GSAP-3.15-88CE02) ![PureCSS](https://img.shields.io/badge/PureCSS-3.0-4A90D9)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **131 currencies** — complete world coverage, grouped by region (Americas, Europe, Asia, Middle East, Africa, Oceania)
+- **Real-time rates** — fetched from the free ExchangeRate-API, auto-refreshes every 2 minutes
+- **Cross-rate calculation** — accurate conversion for **any** currency pair, no matter how obscure, using USD as the base
+- **GSAP animations** — smooth entrance stagger, scale transitions, animated counter on result, swap rotation, floating background particles
+- **Responsive design** — works flawlessly from 320px mobile to ultrawide desktop
+- **Quick pairs** — one-click access to 15 popular currency pairs
+- **Dynamic color theming** — each currency gets a unique HSL-generated accent color used throughout the UI
+- **Live badge** — pulsing indicator shows rates are live
+- **Error handling** — retry button if the API call fails
+- **Accessible** — semantic HTML roles, ARIA labels, keyboard-ready
 
-## Expanding the Oxlint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | [React 19](https://react.dev/) |
+| Build Tool | [Vite 8](https://vitejs.dev/) |
+| Animation | [GSAP 3.15](https://gsap.com/) |
+| CSS Framework | [PureCSS 3.0](https://purecss.io/) |
+| Font | [Inter](https://fonts.google.com/specimen/Inter) via Google Fonts |
+| API | [fawazahmed0/currency-api](https://github.com/fawazahmed0/exchange-api) (free, no key required) |
+
+---
+
+## Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/dextryayers/Currency.git
+cd Currency
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+---
+
+## Build for Production
+
+```bash
+npm run build
+```
+
+The output will be in the `dist/` directory. You can preview it locally:
+
+```bash
+npm run preview
+```
+
+---
+
+## Project Structure
+
+```
+src/
+├── App.jsx                       # Root component — header, particles, footer
+├── index.css                     # Global styles, glassmorphism card, themes
+├── main.jsx                      # Entry point — mounts React, imports PureCSS
+└── components/
+    ├── CurrencyConverter.jsx     # Main converter — logic, currencies, UI
+    └── ErrorBoundary.jsx         # Catches and displays runtime errors
+```
+
+---
+
+## Currency Data
+
+All 131 currencies are organized into 6 geographic regions:
+
+| Region | Count | Examples |
+|---|---|---|
+| Americas | 26 | USD, CAD, BRL, MXN, ARS |
+| Europe | 23 | EUR, GBP, CHF, SEK, TRY |
+| Asia | 27 | JPY, CNY, INR, IDR, KRW |
+| Middle East | 13 | AED, SAR, KWD, ILS, QAR |
+| Africa | 33 | ZAR, NGN, EGP, KES, XAF |
+| Oceania | 9 | AUD, NZD, FJD, PGK, XPF |
+
+---
+
+## How Conversion Works
+
+The app fetches exchange rates **relative to USD** (the most comprehensive base):
+
+```
+rate(from → to) = rate(USD → to) / rate(USD → from)
+result = amount × rate(from → to)
+```
+
+This guarantees accurate conversion for **every** possible currency pair, not just USD-based ones. For example, converting `IDR → JPY`:
+
+```
+rate(IDR → JPY) = rate(USD → JPY) / rate(USD → IDR)
+               = 149.50 / 15750.00
+               = 0.00949 JPY per IDR
+```
+
+---
+
+## API
+
+Exchange rates are provided by [fawazahmed0/currency-api](https://github.com/fawazahmed0/exchange-api) via jsDelivr CDN. No API key is required. The app includes a fallback URL for reliability.
+
+- Primary: `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json`
+- Fallback: `https://latest.currency-api.pages.dev/v1/currencies/usd.json`
+
+Rates are fetched on initial load and refreshed automatically every 120 seconds.
+
+---
+
+## Theming
+
+Each currency receives a unique color generated by hashing its ISO code into an HSL value. These colors appear on:
+
+- Color dots next to "From" / "To" labels
+- Card border accent
+- Card conic gradient overlay
+- Result box gradient border
+
+---
+
+## Browser Support
+
+- Google Chrome (latest 2 versions)
+- Mozilla Firefox (latest 2 versions)
+- Apple Safari (latest 2 versions)
+- Microsoft Edge (latest 2 versions)
+- Opera (latest 2 versions)
+
+---
+
+## License
+
+MIT
+
+---
+
+## Author
+
+**hanif abdurrohim**
+
+- Website: [https://haniipp.space](https://haniipp.space)
+- GitHub: [@dextryayers](https://github.com/dextryayers)
